@@ -1,0 +1,7 @@
+{% if e.status == 'devolvido' %}
+    <span class="badge badge--cinza">Devolvido</span>
+{% elif e.status == 'atrasado' %}
+    <span class="badge badge--vermelho">Atrasado</span>
+{% else %}
+    <span class="badge badge--azul">No prazo</span>
+{% endif %}

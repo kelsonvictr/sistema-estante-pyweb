@@ -1,0 +1,9 @@
+# O que fica de fora da caixa (mesma lista do .gitignore)
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+estante.db
+.idea/
+.DS_Store

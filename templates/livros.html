@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block titulo %}Acervo — Estante{% endblock %}
+
+{% block conteudo %}
+    <div class="cabecalho-pagina">
+        <h1>Acervo</h1>
+        <a class="botao botao--principal" href="{{ url_for('novo_livro') }}">+ Novo livro</a>
+    </div>
+
+    <form class="busca" method="get" action="{{ url_for('livros') }}">
+        <input type="text" name="q" value="{{ busca }}" placeholder="Buscar por título ou autor">
+        <button type="submit" class="botao botao--principal">Buscar</button>
+    </form>
+
+    {% if livros %}
+        <table class="tabela">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Ano</th>
+                    <th>Disponibilidade</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for livro in livros %}
+                    <tr>
+                        <td>{{ livro.titulo }}</td>
+                        <td>{{ livro.autor }}</td>
+                        <td>{{ livro.ano or '—' }}</td>
+                        <td>
+                            <span class="badge {{ 'badge--verde' if livro.disponiveis > 0 else 'badge--vermelho' }}">
+                                {{ livro.disponiveis }} de {{ livro.exemplares }}
+                            </span>
+                        </td>
+                        <td class="acoes">
+                            <a href="{{ url_for('editar_livro', livro_id=livro.id) }}">Editar</a>
+                            <a class="acoes__perigo" href="{{ url_for('excluir_livro', livro_id=livro.id) }}">Excluir</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="estado-vazio">Nenhum livro encontrado.</div>
+    {% endif %}
+{% endblock %}

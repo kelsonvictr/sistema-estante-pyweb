@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block titulo %}Painel — Estante{% endblock %}
+
+{% block conteudo %}
+    <h1>Painel</h1>
+
+    <div class="cartoes-numero">
+        <div class="card-numero">
+            <p class="card-numero__rotulo">Títulos no acervo</p>
+            <p class="card-numero__valor">{{ resumo.titulos }}</p>
+        </div>
+        <div class="card-numero">
+            <p class="card-numero__rotulo">Exemplares disponíveis</p>
+            <p class="card-numero__valor">{{ resumo.disponiveis }}</p>
+        </div>
+        <div class="card-numero">
+            <p class="card-numero__rotulo">Empréstimos ativos</p>
+            <p class="card-numero__valor">{{ resumo.ativos }}</p>
+        </div>
+        <div class="card-numero {{ 'card-numero--alerta' if resumo.atrasados > 0 }}">
+            <p class="card-numero__rotulo">Atrasados</p>
+            <p class="card-numero__valor">{{ resumo.atrasados }}</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Atrasados</h2>
+        {% if atrasados %}
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Leitor</th>
+                        <th>Livro</th>
+                        <th>Previsto para</th>
+                        <th>Atraso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in atrasados %}
+                        <tr>
+                            <td>{{ item.leitor }}</td>
+                            <td>{{ item.livro }}</td>
+                            <td>{{ item.data_prevista | data_br }}</td>
+                            <td><span class="badge badge--vermelho">{{ item.dias_atraso }} dia(s)</span></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="estado-vazio">Nenhum empréstimo atrasado. 🎉</div>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h2>Empréstimos recentes</h2>
+        {% if recentes %}
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Livro</th>
+                        <th>Leitor</th>
+                        <th>Emprestado em</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in recentes %}
+                        <tr>
+                            <td>{{ e.livro }}</td>
+                            <td>{{ e.leitor }}</td>
+                            <td>{{ e.data_emprestimo | data_br }}</td>
+                            <td>{% include "_status.html" %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="estado-vazio">Nenhum empréstimo registrado ainda.</div>
+        {% endif %}
+    </div>
+{% endblock %}

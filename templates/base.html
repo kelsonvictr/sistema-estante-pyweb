@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Estante{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="layout">
+        <nav class="menu-lateral">
+            <div class="menu-lateral__marca">📚 Estante</div>
+            <ul class="menu-lateral__lista">
+                <li><a href="{{ url_for('painel') }}">Painel</a></li>
+                <li><a href="{{ url_for('livros') }}">Acervo</a></li>
+                <li><a href="{{ url_for('leitores') }}">Leitores</a></li>
+                <li><a href="{{ url_for('emprestimos') }}">Empréstimos</a></li>
+            </ul>
+            {% if session.usuario %}
+                <div class="menu-lateral__usuario">
+                    <span>Olá, {{ session.usuario }}</span>
+                    <a href="{{ url_for('logout') }}">Sair</a>
+                </div>
+            {% endif %}
+        </nav>
+
+        <main class="conteudo">
+            {% with mensagens = get_flashed_messages(with_categories=true) %}
+                {% if mensagens %}
+                    <div class="flashes">
+                        {% for categoria, mensagem in mensagens %}
+                            <div class="flash flash--{{ categoria }}">{{ mensagem }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% block conteudo %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

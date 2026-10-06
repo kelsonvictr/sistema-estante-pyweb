@@ -1,0 +1,9 @@
+# O que fica em casa: não vai para o GitHub nem para a caixa
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+estante.db
+.idea/
+.DS_Store
