@@ -11,6 +11,13 @@ padrão ou, se a sua travou, publicar a partir dele.
 > 🌍 No ar: `https://estante-SEUNOME.onrender.com` (troque pelo endereço do seu serviço)
 > 🔑 Usuário `admin` · senha: a que você cadastrou em `ADMIN_SENHA` (em casa, `trocar123`)
 
+**Dois branches, dois momentos:**
+
+| Branch | O que é | Para quê |
+|---|---|---|
+| `dia-07` | a Estante no fim do Dia 7: Prompts 0 a 11, segredos ainda no código, sem Dockerfile | ponto de partida da aula de deploy (Prompt A do Dia 8) |
+| `main` | a Estante empacotada: Prompts 12 e 13 aplicados, mais este README | gabarito para conferir o seu diff do Prompt 13 |
+
 ---
 
 ## 1. O que a Estante faz
