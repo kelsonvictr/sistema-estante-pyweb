@@ -329,6 +329,27 @@ No plano Free do Render:
 Pela regra do dia, os **dados** também deveriam morar fora da caixa — num banco próprio, como
 o mercado faz. É exatamente o limite que abre a conversa do curso Fullstack.
 
+### Domínio próprio (opcional)
+
+A URL `*.onrender.com` funciona, mas o nome é do Render. Para usar um nome seu
+(`estante-ana.shop`, `biblioteca-da-vila.com.br`), nada muda no código: o endereço mora
+fora da caixa, no **DNS**, a "agenda de contatos da internet" que traduz nome em IP.
+
+1. Alugue o domínio num registrador (Superdomínios, Registro.br, Namecheap…). Desligue a
+   renovação automática se for só vitrine: promoções valem só para o primeiro ano.
+2. No Render: `Settings → Custom Domains → Add Custom Domain`. Ele mostra os registros que espera.
+3. No painel de DNS do registrador, crie as duas linhas e apague qualquer `A`/`AAAA` antiga da raiz:
+
+   | Tipo | Nome | Valor |
+   |---|---|---|
+   | `A` | `@` | `216.24.57.1` |
+   | `CNAME` | `www` | `estante-seunome.onrender.com` |
+
+4. Espere a propagação (minutos a horas). O Render verifica o DNS e emite o certificado HTTPS
+   sozinho. Enquanto não chega, o navegador mostra `DNS_PROBE_FINISHED_NXDOMAIN`: não é bug.
+
+Plano Free: até 2 domínios personalizados por workspace.
+
 ### BugZilla do deploy 🐛
 
 | Sintoma | Causa | Remédio |
