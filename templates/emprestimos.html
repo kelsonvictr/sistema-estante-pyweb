@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block titulo %}Empréstimos — Estante{% endblock %}
+
+{% block conteudo %}
+    <div class="cabecalho-pagina">
+        <h1>Empréstimos</h1>
+        <a class="botao botao--principal" href="{{ url_for('novo_emprestimo') }}">+ Emprestar</a>
+    </div>
+
+    <nav class="filtros">
+        <a href="{{ url_for('emprestimos') }}" class="{{ 'filtros__ativo' if not status }}">Todos</a>
+        <a href="{{ url_for('emprestimos', status='ativos') }}" class="{{ 'filtros__ativo' if status == 'ativos' }}">Ativos</a>
+        <a href="{{ url_for('emprestimos', status='atrasados') }}" class="{{ 'filtros__ativo' if status == 'atrasados' }}">Atrasados</a>
+        <a href="{{ url_for('emprestimos', status='devolvidos') }}" class="{{ 'filtros__ativo' if status == 'devolvidos' }}">Devolvidos</a>
+    </nav>
+
+    {% if emprestimos %}
+        <table class="tabela">
+            <thead>
+                <tr>
+                    <th>Livro</th>
+                    <th>Leitor</th>
+                    <th>Emprestado em</th>
+                    <th>Previsto para</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in emprestimos %}
+                    <tr>
+                        <td>{{ e.livro }}</td>
+                        <td>{{ e.leitor }}</td>
+                        <td>{{ e.data_emprestimo | data_br }}</td>
+                        <td>{{ e.data_prevista | data_br }}</td>
+                        <td>{% include "_status.html" %}</td>
+                        <td class="acoes">
+                            {% if not e.data_devolucao %}
+                                <form method="post" action="{{ url_for('devolver_emprestimo', emprestimo_id=e.id) }}">
+                                    <button type="submit" class="botao botao--secundario botao--pequeno">Devolver</button>
+                                </form>
+                            {% else %}
+                                <span class="texto-secundario">em {{ e.data_devolucao | data_br }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="estado-vazio">Nenhum empréstimo neste filtro.</div>
+    {% endif %}
+{% endblock %}

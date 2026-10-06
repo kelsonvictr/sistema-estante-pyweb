@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block titulo %}Emprestar — Estante{% endblock %}
+
+{% block conteudo %}
+    <h1>Emprestar</h1>
+
+    <div class="card">
+        {% if livros %}
+            <form class="formulario" method="post">
+                <div class="campo">
+                    <label for="livro_id">Livro (só os que têm exemplar disponível)</label>
+                    <select id="livro_id" name="livro_id">
+                        {% for livro in livros %}
+                            <option value="{{ livro.id }}">{{ livro.titulo }} — {{ livro.autor }} ({{ livro.disponiveis }} disp.)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="leitor_id">Leitor</label>
+                    <select id="leitor_id" name="leitor_id">
+                        {% for leitor in leitores %}
+                            <option value="{{ leitor.id }}">{{ leitor.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <p class="texto-secundario">Devolução prevista para <strong>{{ data_prevista | data_br }}</strong> (14 dias).</p>
+                <div class="formulario__acoes">
+                    <button type="submit" class="botao botao--principal">Confirmar empréstimo</button>
+                    <a class="botao botao--secundario" href="{{ url_for('emprestimos') }}">Cancelar</a>
+                </div>
+            </form>
+        {% else %}
+            <div class="estado-vazio">Nenhum livro com exemplar disponível no momento.</div>
+        {% endif %}
+    </div>
+{% endblock %}
